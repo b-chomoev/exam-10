@@ -29,4 +29,19 @@ commentsRouter.post('/', async (req, res) => {
     res.send(savedComment);
 });
 
+commentsRouter.get('/', async (req, res) => {
+    const newsId = req.query.news_id as string;
+
+    if (!newsId) {
+        const comments = await fileDbComments.getComments();
+        res.send(comments);
+        return;
+    }
+
+    const comments = await fileDbComments.getComments();
+    const filteredComments = comments.filter((comment) => comment.newsId === newsId);
+
+    res.send(filteredComments);
+});
+
 export default commentsRouter;

@@ -1,14 +1,1 @@
-[
-  {
-    "id": "c5e7b181-d257-4c41-8b96-93df3872c26c",
-    "newsId": "8aa11415-db5c-4703-88de-62fa79e440a2",
-    "author": "Beks",
-    "content": "Hello World"
-  },
-  {
-    "id": "e3bb5160-c952-430b-9bfd-6c5df88107b4",
-    "newsId": "8aa11415-db5c-4703-88de-62fa79e440a2",
-    "author": "Anonymous",
-    "content": "Hello World"
-  }
-]
+[{"id":"c5e7b181-d257-4c41-8b96-93df3872c26c","newsId":"8aa11415-db5c-4703-88de-62fa79e440a2","author":"Beks","content":"Hello World"},{"id":"e3bb5160-c952-430b-9bfd-6c5df88107b4","newsId":"8aa11415-db5c-4703-88de-62fa79e440a2","author":"Anonymous","content":"Hello World"},{"id":"490d0b11-5d46-4913-89ad-abe52f3e4635","newsId":"edade3b9-9d53-4802-b903-cba59eff7f4b","author":"Maks","content":"Be happy!"}]

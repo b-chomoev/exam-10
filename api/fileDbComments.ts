@@ -14,7 +14,7 @@ const fileDbComments = {
         }
     },
     async getComments() {
-
+        return dataComments;
     },
     async addComment(comment: ICommentWithoutId) {
         const id = crypto.randomUUID();
