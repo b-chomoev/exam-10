@@ -1,0 +1,36 @@
+import noPicture from '../../assets/no-picture.png';
+import { apiUrl } from '../../globalConstants';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+
+interface Props {
+  id: string;
+  title: string;
+  content: string;
+  image?: string | null | undefined;
+  date: string;
+}
+
+const NewsItem: React.FC<Props> = ({id, title, content, image, date}) => {
+  let newsImage = noPicture;
+
+  if (image) {
+    newsImage = apiUrl + '/' + image;
+  }
+
+  return (
+    <>
+      <div className="card" style={{width: '18 rem'}}>
+        <img src={newsImage} className="card-img-top" alt={title}/>
+        <div className="card-body">
+          <h5 className="card-title">{title}</h5>
+          <p className="card-text">{content}</p>
+          <p className="card-text">{date}</p>
+          <NavLink to={`/news/${id}`} className="btn btn-primary">Read more</NavLink>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default NewsItem;

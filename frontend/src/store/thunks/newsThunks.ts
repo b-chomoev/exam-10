@@ -19,3 +19,11 @@ export const createPost = createAsyncThunk<void, IPostMutation>(
     await axiosApi.post('/news', formData);
   }
 );
+
+export const fetchPosts = createAsyncThunk<IPost[], void>(
+  'news/fetchPosts',
+  async () => {
+    const postsResponse = await axiosApi.get<IPost[]>('/news');
+    return postsResponse.data || [];
+  }
+);
