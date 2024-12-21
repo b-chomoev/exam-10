@@ -44,4 +44,17 @@ commentsRouter.get('/', async (req, res) => {
     res.send(filteredComments);
 });
 
+commentsRouter.delete('/:id', async (req, res) => {
+    const comments = await fileDbComments.getComments();
+    const commentIndex = comments.findIndex((comment) => comment.id === req.params.id);
+    if (commentIndex === -1) {
+        res.status(404).send({error: 'Comment not found'});
+        return;
+    } else {
+        comments.splice(commentIndex, 1);
+        await fileDbComments.save();
+        res.send('Comment deleted');
+    }
+});
+
 export default commentsRouter;
