@@ -23,22 +23,23 @@ const Home = () => {
       </div>
 
       {isFetchNewsLoading ? <Spinner/> :
-        <>
+        <div className='row'>
           {news.length === 0 && !isFetchNewsLoading ? <h2>No posts yet</h2> :
             <>
               {news.map((post) => (
-                <NewsItem
-                  key={post.id}
-                  id={post.id}
-                  title={post.title}
-                  content={post.content}
-                  image={post.image}
-                  date={post.date}
-                />
+                <div className='col-sm-4' key={post.id}>
+                  <NewsItem
+                    id={post.id}
+                    title={post.title}
+                    content={post.content}
+                    image={post.image}
+                    date={post.date}
+                  />
+                </div>
               ))}
             </>
           }
-        </>
+        </div>
       }
     </>
   );
