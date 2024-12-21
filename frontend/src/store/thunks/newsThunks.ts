@@ -34,3 +34,16 @@ export const deletePost = createAsyncThunk<void, string>(
     await axiosApi.delete(`/news/${id}`);
   }
 );
+
+export const getPostById = createAsyncThunk<IPost | null, string>(
+  'news/getPostById',
+  async (id: string) => {
+    const response = await axiosApi.get<IPost>(`/news/${id}`);
+
+    if (!response.data) {
+      return null;
+    }
+
+    return response.data;
+  }
+);

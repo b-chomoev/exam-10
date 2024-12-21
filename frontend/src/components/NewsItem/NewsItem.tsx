@@ -6,10 +6,10 @@ import { NavLink } from 'react-router-dom';
 interface Props {
   id: string;
   title: string;
-  content: string;
+  content?: string;
   image?: string | null | undefined;
   date: string;
-  onDelete: () => void;
+  onDelete?: () => void;
 }
 
 const NewsItem: React.FC<Props> = ({id, title, content, image, date, onDelete}) => {
