@@ -22,4 +22,28 @@ newsRouter.post('/', imagesUpload.single('image'), async (req,res) => {
     res.send(savedNews);
 });
 
+newsRouter.get('/', async (_req, res) => {
+    const news = await fileDbNews.getNews();
+    res.send(news);
+});
+
+newsRouter.get('/:id', async (req, res) => {
+    const news = await fileDbNews.getNewsById();
+    const newsFindById = news.find((news) => news.id === req.params.id);
+    res.send(newsFindById);
+});
+
+newsRouter.delete('/:id', async (req, res) => {
+    const news = await fileDbNews.getNewsById();
+    const newsIndex = news.findIndex((news) => news.id === req.params.id);
+    if (newsIndex === -1) {
+        res.status(404).send({error: 'News not found'});
+        return;
+    } else {
+        news.splice(newsIndex, 1);
+        await fileDbNews.save();
+        res.send('News deleted');
+    }
+});
+
 export default newsRouter;

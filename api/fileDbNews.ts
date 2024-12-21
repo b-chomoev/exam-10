@@ -14,6 +14,9 @@ const fileDbNews = {
         }
     },
     async getNews() {
+        return dataNews.map(({id, title, date, image}) => ({id, title, date, image}));
+    },
+    async getNewsById() {
         return dataNews;
     },
     async addNews(news: INewsWithoutIdAndDate) {
