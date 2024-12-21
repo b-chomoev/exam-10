@@ -27,3 +27,10 @@ export const fetchPosts = createAsyncThunk<IPost[], void>(
     return postsResponse.data || [];
   }
 );
+
+export const deletePost = createAsyncThunk<void, string>(
+  'news/deletePost',
+  async (id: string) => {
+    await axiosApi.delete(`/news/${id}`);
+  }
+);

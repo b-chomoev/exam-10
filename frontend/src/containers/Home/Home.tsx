@@ -2,9 +2,10 @@ import { NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectFetchLoading, selectNews } from '../../store/slices/newsSlice';
 import { useEffect } from 'react';
-import { fetchPosts } from '../../store/thunks/newsThunks';
+import { deletePost, fetchPosts } from '../../store/thunks/newsThunks';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import NewsItem from '../../components/NewsItem/NewsItem';
+import dayjs from 'dayjs';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,14 @@ const Home = () => {
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
+
+  const deletePostById = async (id: string | undefined) => {
+    if (id) {
+      await dispatch(deletePost(id));
+    }
+
+    await dispatch(fetchPosts());
+  };
 
   return (
     <>
@@ -33,7 +42,8 @@ const Home = () => {
                     title={post.title}
                     content={post.content}
                     image={post.image}
-                    date={post.date}
+                    date={dayjs(post.date).format('DD/MM/YYYY')}
+                    onDelete={() => deletePostById(post.id)}
                   />
                 </div>
               ))}
