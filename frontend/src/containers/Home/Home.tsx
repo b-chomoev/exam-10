@@ -1,20 +1,20 @@
 import { NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectDeleteLoading, selectFetchLoading, selectNews } from '../../store/slices/newsSlice';
+import { selectDeleteLoading, selectFetchLoading, selectAllPosts } from '../Posts/slices/postsSlice';
 import { useEffect } from 'react';
-import { deletePost, fetchPosts } from '../../store/thunks/newsThunks';
+import { deletePost, fetchAllPosts } from '../Posts/thunks/postsThunks';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import NewsItem from '../../components/NewsItem/NewsItem';
 import dayjs from 'dayjs';
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const news = useAppSelector(selectNews);
+  const news = useAppSelector(selectAllPosts);
   const isFetchNewsLoading = useAppSelector(selectFetchLoading);
   const deleteLoading = useAppSelector(selectDeleteLoading);
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(fetchAllPosts());
   }, [dispatch]);
 
   const deletePostById = async (id: string | undefined) => {
@@ -22,7 +22,7 @@ const Home = () => {
       await dispatch(deletePost(id));
     }
 
-    await dispatch(fetchPosts());
+    await dispatch(fetchAllPosts());
   };
 
   return (

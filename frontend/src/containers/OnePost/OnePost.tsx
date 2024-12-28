@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectOneFetchLoading, selectOnePost } from '../../store/slices/newsSlice';
+import { selectOneFetchLoading, selectOnePost } from '../Posts/slices/postsSlice';
 import { useEffect } from 'react';
-import { getPostById } from '../../store/thunks/newsThunks';
+import { fetchOnePost } from '../Posts/thunks/postsThunks';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import dayjs from 'dayjs';
 import noPicture from '../../assets/no-picture.png';
@@ -16,7 +16,7 @@ const OnePost = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(getPostById(id));
+      dispatch(fetchOnePost(id));
     }
   }, [dispatch]);
 

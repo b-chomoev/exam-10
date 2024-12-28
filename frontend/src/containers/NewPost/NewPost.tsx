@@ -1,18 +1,18 @@
 import Form from '../../components/Form/Form';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectCreateLoading } from '../../store/slices/newsSlice';
+import { selectAddLoading } from '../Posts/slices/postsSlice';
 import { useNavigate } from 'react-router-dom';
-import { createPost } from '../../store/thunks/newsThunks';
+import { addNewPost } from '../Posts/thunks/postsThunks';
 import { toast } from 'react-toastify';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 const NewPost = () => {
   const dispatch = useAppDispatch();
-  const isCreateLoading = useAppSelector(selectCreateLoading);
+  const isCreateLoading = useAppSelector(selectAddLoading);
   const navigate = useNavigate();
 
   const onSubmitForm = async (post: IPostMutation) => {
-    await dispatch(createPost(post));
+    await dispatch(addNewPost(post));
     toast.success('Product was successfully created!');
     navigate('/');
   };
