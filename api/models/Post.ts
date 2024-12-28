@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, {CallbackError} from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -18,6 +18,16 @@ const PostSchema = new Schema({
     date: {
         type: String,
         default: () => new Date().toISOString()
+    }
+});
+
+PostSchema.pre('findOneAndDelete', async function (next) {
+    const postId = this.getQuery().id;
+
+    try {
+        await mongoose.model('Comment').deleteMany({post: postId});
+    } catch (error) {
+        next(error as CallbackError);
     }
 });
 

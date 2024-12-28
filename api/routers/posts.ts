@@ -1,49 +1,74 @@
 import express from "express";
 import {imagesUpload} from "../multer";
-import {INewsWithoutIdAndDate} from "../types";
-import fileDbNews from "../fileDbNews";
+import Post from "../models/Post";
+import mongoose from "mongoose";
 
-const commentsRouter = express.Router();
+const postsRouter = express.Router();
 
-commentsRouter.post('/', imagesUpload.single('image'), async (req,res) => {
-    if (!req.body.title || !req.body.content) {
-        res.status(400).send({error: 'Title and text must be present in the request'});
-        return;
-    }
-
-    const news: INewsWithoutIdAndDate = {
-        title: req.body.title,
-        content: req.body.content,
-        image: req.file ? 'images' + req.file.filename : null,
-    }
-
-    const savedNews = await fileDbNews.addNews(news);
-
-    res.send(savedNews);
-});
-
-commentsRouter.get('/', async (_req, res) => {
-    const news = await fileDbNews.getNews();
-    res.send(news);
-});
-
-commentsRouter.get('/:id', async (req, res) => {
-    const news = await fileDbNews.getNewsById();
-    const newsFindById = news.find((news) => news.id === req.params.id);
-    res.send(newsFindById);
-});
-
-commentsRouter.delete('/:id', async (req, res) => {
-    const news = await fileDbNews.getNewsById();
-    const newsIndex = news.findIndex((news) => news.id === req.params.id);
-    if (newsIndex === -1) {
-        res.status(404).send({error: 'News not found'});
-        return;
-    } else {
-        news.splice(newsIndex, 1);
-        await fileDbNews.save();
-        res.send('News deleted');
+postsRouter.get('/', async (req: express.Request, res: express.Response, next) => {
+    try {
+        const posts = await Post.find({}, {description: 0});
+        res.send(posts);
+    } catch (e) {
+        next(e);
     }
 });
 
-export default commentsRouter;
+postsRouter.get('/:id', async (req: express.Request, res: express.Response, next) => {
+    const id = req.params.id;
+
+    if (!id) res.status(400).send('Params id of post must be in request');
+
+    try {
+        const posts = await Post.findById(id);
+
+        if (!posts) res.status(404).send('Post not found');
+
+        res.send(posts);
+    } catch (e) {
+        next(e);
+    }
+});
+
+postsRouter.post('/', imagesUpload.single('image'), async (req: express.Request, res: express.Response, next) => {
+    const {title, description} = req.body;
+
+    const newPost = {
+        title: title,
+        description: description,
+        image: req.file ? `/images/${req.file.filename}` : null,
+    }
+
+    try {
+        const newPostData = new Post(newPost);
+        await newPostData.save();
+        res.send(newPostData);
+    } catch (e) {
+        if (e instanceof mongoose.Error.ValidationError) {
+            const ValidationErrors = Object.keys(e.errors).map(key => ({
+                field: key,
+                message: e.errors[key].message,
+            }));
+
+            res.status(400).send({errors: ValidationErrors});
+        }
+
+        next(e);
+    }
+});
+
+postsRouter.delete('/:id', async (req: express.Request, res: express.Response, next) => {
+    const id = req.params.id;
+
+    try {
+        const deletePost = await Post.findByIdAndDelete(id);
+
+        if (!deletePost) res.status(404).send('Post not found');
+
+        res.send('Post deleted');
+    } catch (e) {
+        next(e);
+    }
+});
+
+export default postsRouter;
