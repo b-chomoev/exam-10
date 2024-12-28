@@ -7,26 +7,25 @@ interface Props {
 
 const initialState = {
   title: '',
-  content: '',
+  description: '',
   image: null,
 };
 
 const Form: React.FC<Props> = ({onSubmit}) => {
   const [form, setForm] = useState<IPostMutation>(initialState);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const SubmitFormHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit({...form});
+  };
+
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {value, name} = e.target;
 
     setForm(prevState => ({
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    onSubmit({...form});
   };
 
   const fileEventChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +41,7 @@ const Form: React.FC<Props> = ({onSubmit}) => {
 
   return (
     <div>
-      <form onSubmit={onSubmitHandler}>
+      <form onSubmit={SubmitFormHandler}>
         <h3>Add new Post</h3>
         <div>
           <label htmlFor="title">Title: </label>
@@ -51,17 +50,17 @@ const Form: React.FC<Props> = ({onSubmit}) => {
             name="title"
             className="mt-1 border-black form-control"
             value={form.title}
-            onChange={onChange}
+            onChange={inputChangeHandler}
           />
         </div>
 
         <div>
-          <label htmlFor="content">Content: </label>
+          <label htmlFor="description">Content: </label>
           <textarea
-            name="content"
+            name="description"
             className="mt-1 border-black form-control"
-            value={form.content}
-            onChange={onChange}
+            value={form.description}
+            onChange={inputChangeHandler}
           />
         </div>
 

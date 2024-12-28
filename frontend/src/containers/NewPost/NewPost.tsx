@@ -11,7 +11,7 @@ const NewPost = () => {
   const isCreateLoading = useAppSelector(selectAddLoading);
   const navigate = useNavigate();
 
-  const onSubmitForm = async (post: IPostMutation) => {
+  const sendPost = async (post: IPostMutation) => {
     await dispatch(addNewPost(post));
     toast.success('Product was successfully created!');
     navigate('/');
@@ -20,7 +20,7 @@ const NewPost = () => {
   return (
     <>
       {isCreateLoading ? <Spinner/> :
-        <Form onSubmit={onSubmitForm}/>
+        <Form onSubmit={sendPost}/>
       }
     </>
   );

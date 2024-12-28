@@ -1,14 +1,14 @@
 interface IPost {
   id: string;
   title: string;
-  content: string;
+  description: string;
   image: string | null;
   date: string;
 }
 
 interface IPostMutation {
   title: string;
-  content: string;
+  description: string;
   image: File | null;
 }
 
