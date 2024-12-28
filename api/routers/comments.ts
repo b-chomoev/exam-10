@@ -3,9 +3,9 @@ import {ICommentWithoutId} from "../types";
 import fileDbComments from "../fileDbComments";
 import fileDbNews from "../fileDbNews";
 
-const commentsRouter = express.Router();
+const PostsRouter = express.Router();
 
-commentsRouter.post('/', async (req, res) => {
+PostsRouter.post('/', async (req, res) => {
     if (!req.body.newsId || !req.body.content) {
         res.status(400).send({error: 'NewsId and content must be present in the request'});
         return;
@@ -29,7 +29,7 @@ commentsRouter.post('/', async (req, res) => {
     res.send(savedComment);
 });
 
-commentsRouter.get('/', async (req, res) => {
+PostsRouter.get('/', async (req, res) => {
     const newsId = req.query.news_id as string;
 
     if (!newsId) {
@@ -44,7 +44,7 @@ commentsRouter.get('/', async (req, res) => {
     res.send(filteredComments);
 });
 
-commentsRouter.delete('/:id', async (req, res) => {
+PostsRouter.delete('/:id', async (req, res) => {
     const comments = await fileDbComments.getComments();
     const commentIndex = comments.findIndex((comment) => comment.id === req.params.id);
     if (commentIndex === -1) {
@@ -57,4 +57,4 @@ commentsRouter.delete('/:id', async (req, res) => {
     }
 });
 
-export default commentsRouter;
+export default PostsRouter;

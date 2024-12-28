@@ -1,25 +1,29 @@
 import express from 'express';
-import commentsRouter from "./routers/comments";
-import newsRouter from "./routers/news";
-import fileDbNews from "./fileDbNews";
 import cors from "cors";
-import fileDbComments from "./fileDbComments";
+import mongoose from "mongoose";
+import PostsRouter from "./routers/comments";
+import commentsRouter from "./routers/posts";
+import mongoDb from "./mongoDb";
 
 const app = express();
 const port = 8000;
 
 app.use(cors());
 app.use(express.json());
+
 app.use(express.static('public'));
+app.use('/posts', PostsRouter);
 app.use('/comments', commentsRouter);
-app.use('/news', newsRouter);
 
 const run = async () => {
-    await fileDbNews.init();
-    await fileDbComments.init();
+    await mongoose.connect('mongodb://localhost/news')
 
     app.listen(port, () => {
         console.log(`Server started on port http://localhost:${port}`);
+    });
+
+    process.on('exit', () => {
+        mongoDb.disconnect();
     });
 };
 

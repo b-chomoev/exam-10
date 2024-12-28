@@ -3,9 +3,9 @@ import {imagesUpload} from "../multer";
 import {INewsWithoutIdAndDate} from "../types";
 import fileDbNews from "../fileDbNews";
 
-const newsRouter = express.Router();
+const commentsRouter = express.Router();
 
-newsRouter.post('/', imagesUpload.single('image'), async (req,res) => {
+commentsRouter.post('/', imagesUpload.single('image'), async (req,res) => {
     if (!req.body.title || !req.body.content) {
         res.status(400).send({error: 'Title and text must be present in the request'});
         return;
@@ -22,18 +22,18 @@ newsRouter.post('/', imagesUpload.single('image'), async (req,res) => {
     res.send(savedNews);
 });
 
-newsRouter.get('/', async (_req, res) => {
+commentsRouter.get('/', async (_req, res) => {
     const news = await fileDbNews.getNews();
     res.send(news);
 });
 
-newsRouter.get('/:id', async (req, res) => {
+commentsRouter.get('/:id', async (req, res) => {
     const news = await fileDbNews.getNewsById();
     const newsFindById = news.find((news) => news.id === req.params.id);
     res.send(newsFindById);
 });
 
-newsRouter.delete('/:id', async (req, res) => {
+commentsRouter.delete('/:id', async (req, res) => {
     const news = await fileDbNews.getNewsById();
     const newsIndex = news.findIndex((news) => news.id === req.params.id);
     if (newsIndex === -1) {
@@ -46,4 +46,4 @@ newsRouter.delete('/:id', async (req, res) => {
     }
 });
 
-export default newsRouter;
+export default commentsRouter;
