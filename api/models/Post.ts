@@ -22,7 +22,7 @@ const PostSchema = new Schema({
 });
 
 PostSchema.pre('findOneAndDelete', async function (next) {
-    const postId = this.getQuery().id;
+    const postId = this.getQuery()._id;
 
     try {
         await mongoose.model('Comment').deleteMany({post: postId});
