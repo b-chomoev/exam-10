@@ -21,4 +21,5 @@ interface IComment {
 interface ICommentMutation {
   author: string;
   text: string;
+  post: string;
 }
