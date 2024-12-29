@@ -12,7 +12,7 @@ interface Props {
   onDelete?: () => void;
 }
 
-const NewsItem: React.FC<Props> = ({id, title, content, image, date, onDelete}) => {
+const PostItem: React.FC<Props> = ({id, title, content, image, date, onDelete}) => {
   let newsImage = noPicture;
 
   if (image) {
@@ -35,4 +35,4 @@ const NewsItem: React.FC<Props> = ({id, title, content, image, date, onDelete}) 
   );
 };
 
-export default NewsItem;
+export default PostItem;

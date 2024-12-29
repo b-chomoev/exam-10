@@ -71,7 +71,6 @@ export const postsSlice = createSlice({
       .addCase(addNewPost.rejected, (state) => {
         state.addLoading = false;
       })
-
   }
 });
 

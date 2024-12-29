@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectOneFetchLoading, selectOnePost } from '../Posts/slices/postsSlice';
+import { selectOnePost } from '../Posts/slices/postsSlice';
 import { useEffect } from 'react';
 import { fetchOnePost } from '../Posts/thunks/postsThunks';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -9,10 +9,7 @@ import noPicture from '../../assets/no-picture.png';
 import { apiUrl } from '../../globalConstants'; // Ensure this is defined
 
 const OnePost = () => {
-  const { id } = useParams();
-  const dispatch = useAppDispatch();
-  const post = useAppSelector(selectOnePost);
-  const isFetchLoading = useAppSelector(selectOneFetchLoading);
+
 
   useEffect(() => {
     if (id) {

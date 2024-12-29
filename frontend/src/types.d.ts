@@ -1,20 +1,24 @@
 interface IPost {
-  id: string;
+  _id: string;
   title: string;
-  description: string;
-  image: string | null;
+  description?: string;
+  image: string;
   date: string;
 }
 
 interface IPostMutation {
   title: string;
   description: string;
-  image: File | null;
+  image: string | null;
 }
 
 interface IComment {
-  id: string;
-  news_id: string;
+  _id: string;
   author: string;
-  content: string;
+  text: string;
+}
+
+interface ICommentMutation {
+  author: string;
+  text: string;
 }

@@ -36,7 +36,7 @@ postsRouter.post('/', imagesUpload.single('image'), async (req: express.Request,
     const newPost = {
         title: title,
         description: description,
-        image: req.file ? `/images/${req.file.filename}` : null,
+        image: req.file ? `images/${req.file.filename}` : null,
     }
 
     try {
