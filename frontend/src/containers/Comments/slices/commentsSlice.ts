@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
+import { addNewComment } from '../thunks/commensThunks';
 
 export interface ICommentState {
   comments: IComment[];
@@ -21,6 +22,18 @@ export const commentsSlice = createSlice({
   name: 'comments',
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(addNewComment.pending, (state) => {
+        state.addLoading = true;
+      })
+      .addCase(addNewComment.fulfilled, (state) => {
+        state.addLoading = false;
+      })
+      .addCase(addNewComment.rejected, (state) => {
+        state.addLoading = true;
+      })
+  }
 });
 
 export const commentsReducer = commentsSlice.reducer;

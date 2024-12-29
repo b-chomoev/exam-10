@@ -7,6 +7,7 @@ import { apiUrl } from '../../globalConstants';
 import noPicture from '../../assets/no-picture.png';
 import dayjs from 'dayjs';
 import NewCommentForm from '../Comments/components/NewCommentForm/NewCommentForm';
+import { addNewComment } from '../Comments/thunks/commensThunks';
 
 const FullPost = () => {
   const {id} = useParams();
@@ -20,7 +21,9 @@ const FullPost = () => {
   }, [dispatch]);
 
   const addNewCommentSubmit = (comment: ICommentMutation) => {
-    console.log(comment);
+    if (id) {
+      dispatch(addNewComment({...comment, post: id}));
+    }
   };
 
   return (
@@ -37,7 +40,7 @@ const FullPost = () => {
 
       <hr/>
 
-      <NewCommentForm onSubmit={addNewCommentSubmit}/>
+      <NewCommentForm onSubmit={addNewCommentSubmit} />
     </>
   );
 };

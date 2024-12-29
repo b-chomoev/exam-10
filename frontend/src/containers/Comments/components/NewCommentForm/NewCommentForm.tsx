@@ -14,7 +14,8 @@ const NewCommentForm: React.FC<Props> = ({onSubmit}) => {
 
   const submitFormHandler = (e: FormEvent) => {
    e.preventDefault();
-    onSubmit({...comment});
+    onSubmit({...comment, post: ''});
+    setComment(initialState);
   }
 
   const inputChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
