@@ -7,7 +7,7 @@ import { apiUrl } from '../../globalConstants';
 import noPicture from '../../assets/no-picture.png';
 import dayjs from 'dayjs';
 import NewCommentForm from '../Comments/components/NewCommentForm/NewCommentForm';
-import { addNewComment, getPostComment } from '../Comments/thunks/commensThunks';
+import { addNewComment, deleteComment, getPostComment } from '../Comments/thunks/commensThunks';
 import { selectAllComments } from '../Comments/slices/commentsSlice';
 
 const FullPost = () => {
@@ -23,9 +23,19 @@ const FullPost = () => {
     }
   }, [dispatch]);
 
-  const addNewCommentSubmit = (comment: ICommentMutation) => {
+  const addNewCommentSubmit = async (comment: ICommentMutation) => {
     if (id) {
-      dispatch(addNewComment({...comment, post: id}));
+      await dispatch(addNewComment({...comment, post: id}));
+      await dispatch(getPostComment(id));
+    }
+  };
+
+  const deleteCommentById = async (comment_id: string) => {
+    await dispatch(deleteComment(comment_id));
+
+    if (id) {
+      await dispatch(fetchOnePost(id));
+      await dispatch(getPostComment(id));
     }
   };
 
@@ -43,18 +53,19 @@ const FullPost = () => {
 
       <hr/>
 
-      <NewCommentForm onSubmit={addNewCommentSubmit} />
+      <NewCommentForm onSubmit={addNewCommentSubmit} postId=''/>
 
       <hr/>
 
       {allComments.length > 0 ?
         <>
           {allComments.map((comment) => (
-            <div className="border border-black mb-4">
+            <div className="border border-1 mb-4 p-2">
               <h4>{comment.author}</h4>
               <p>{comment.text}</p>
+              <button className="btn btn-danger" onClick={() => deleteCommentById(comment._id)}>Delete</button>
             </div>
-            ))}
+          ))}
         </>
         :
         null

@@ -40,7 +40,7 @@ export const commentsSlice = createSlice({
       })
       .addCase(getPostComment.fulfilled, (state, {payload: comments}) => {
         state.fetchLoading = false;
-        state.comments = comments;
+        state.comments = comments.reverse();
       })
       .addCase(getPostComment.rejected, (state) => {
         state.fetchLoading = true;

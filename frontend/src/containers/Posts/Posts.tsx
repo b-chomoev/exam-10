@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import  { useEffect } from 'react';
-import { fetchAllPosts } from './thunks/postsThunks';
+import { deletePost, fetchAllPosts } from './thunks/postsThunks';
 import { NavLink } from 'react-router-dom';
 import { selectAllPosts, selectDeleteLoading, selectFetchLoading } from './slices/postsSlice';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -17,6 +17,11 @@ const Posts = () => {
   useEffect(() => {
     dispatch(fetchAllPosts());
   }, []);
+
+  const deletePostById = async (post_id: string) => {
+    await dispatch(deletePost(post_id));
+    await dispatch(fetchAllPosts());
+  };
 
   return (
     <>
@@ -38,7 +43,7 @@ const Posts = () => {
                       <h5 className="card-title">{post.title}</h5>
                       <p className="card-text">{dayjs(post.date).format('MM/DD/YYYY')}</p>
                       <NavLink to={`/posts/${post._id}`} className="btn btn-primary">Read more</NavLink>
-                      <button className='btn btn-danger ms-3'>Delete</button>
+                      <button className='btn btn-danger ms-3' onClick={() => deletePostById(post._id)}>Delete</button>
                     </div>
                   </div>
                 </div>

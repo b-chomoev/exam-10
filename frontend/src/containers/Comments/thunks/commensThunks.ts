@@ -9,6 +9,12 @@ export const getPostComment = createAsyncThunk<IComment[], string>(
   }
 );
 
+export const deleteComment = createAsyncThunk<void, string>(
+  'comments/deleteComment',
+  async (comment_id: string) => {
+    await axiosApi.delete(`/comments/${comment_id}`);
+  }
+);
 export const addNewComment = createAsyncThunk<void, ICommentMutation>(
   'comments/addNewComment',
   async (newComment) => {

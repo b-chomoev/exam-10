@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 
 interface Props {
   onSubmit: (comment: ICommentMutation) => void;
+  postId: string;
 }
 
 const initialState = {
@@ -9,12 +10,12 @@ const initialState = {
   text: '',
 }
 
-const NewCommentForm: React.FC<Props> = ({onSubmit}) => {
+const NewCommentForm: React.FC<Props> = ({onSubmit, postId}) => {
   const [comment, setComment] = useState(initialState);
 
   const submitFormHandler = (e: FormEvent) => {
    e.preventDefault();
-    onSubmit({...comment});
+    onSubmit({...comment, post: postId});
     setComment(initialState);
   }
 
