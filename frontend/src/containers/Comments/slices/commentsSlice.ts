@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
-import { addNewComment } from '../thunks/commensThunks';
+import { addNewComment, getPostComment } from '../thunks/commensThunks';
 
 export interface ICommentState {
   comments: IComment[];
@@ -32,6 +32,18 @@ export const commentsSlice = createSlice({
       })
       .addCase(addNewComment.rejected, (state) => {
         state.addLoading = true;
+      })
+
+      .addCase(getPostComment.pending, (state) => {
+        state.fetchLoading = true;
+        state.comments = [];
+      })
+      .addCase(getPostComment.fulfilled, (state, {payload: comments}) => {
+        state.fetchLoading = false;
+        state.comments = comments;
+      })
+      .addCase(getPostComment.rejected, (state) => {
+        state.fetchLoading = true;
       })
   }
 });

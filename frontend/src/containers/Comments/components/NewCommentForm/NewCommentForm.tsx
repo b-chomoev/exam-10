@@ -14,7 +14,7 @@ const NewCommentForm: React.FC<Props> = ({onSubmit}) => {
 
   const submitFormHandler = (e: FormEvent) => {
    e.preventDefault();
-    onSubmit({...comment, post: ''});
+    onSubmit({...comment});
     setComment(initialState);
   }
 
@@ -34,7 +34,7 @@ const NewCommentForm: React.FC<Props> = ({onSubmit}) => {
           <label htmlFor="text" className="form-label">Content</label>
           <textarea className="form-control" id="text" name='text' value={comment.text} onChange={inputChangeHandler}/>
         </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
+        <button type="submit" className="btn btn-primary">Add Comment</button>
       </form>
     </div>
   );

@@ -7,16 +7,19 @@ import { apiUrl } from '../../globalConstants';
 import noPicture from '../../assets/no-picture.png';
 import dayjs from 'dayjs';
 import NewCommentForm from '../Comments/components/NewCommentForm/NewCommentForm';
-import { addNewComment } from '../Comments/thunks/commensThunks';
+import { addNewComment, getPostComment } from '../Comments/thunks/commensThunks';
+import { selectAllComments } from '../Comments/slices/commentsSlice';
 
 const FullPost = () => {
   const {id} = useParams();
+  const allComments = useAppSelector(selectAllComments);
   const dispatch = useAppDispatch();
   const post = useAppSelector(selectOnePost);
 
   useEffect(() => {
     if (id) {
       dispatch(fetchOnePost(id));
+      dispatch(getPostComment(id));
     }
   }, [dispatch]);
 
@@ -41,6 +44,21 @@ const FullPost = () => {
       <hr/>
 
       <NewCommentForm onSubmit={addNewCommentSubmit} />
+
+      <hr/>
+
+      {allComments.length > 0 ?
+        <>
+          {allComments.map((comment) => (
+            <div className="border border-black mb-4">
+              <h4>{comment.author}</h4>
+              <p>{comment.text}</p>
+            </div>
+            ))}
+        </>
+        :
+        null
+      }
     </>
   );
 };
